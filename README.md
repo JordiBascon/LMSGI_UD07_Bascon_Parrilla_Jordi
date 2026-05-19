@@ -1,1 +1,0 @@
-# LMSGI_UD07_Bascon_Parrilla_Jordi
