@@ -16,9 +16,10 @@ Además se comentará cada parte del código para que si a la hora de modificarl
 
 Para este apartado se deberá adjuntar una factura electronica simplificada que cumpla con las especificaciones del estandar UBL (Universal Bussines Language) junto a los nombres de los espacios para los componentes que han sido agregados (cac, bcb...).
 
+![alt text](src/image2.png)
+
 Para ello se debe entrar nuevamente en Odoo, pero a diferencia de en el apartado anterior entraremos a las facturas existentes que han sido creadas anteriormente. Se elegirá una de estas y se exportará como xml.
 Esto nos dará el archivo xml con el estandar UBL y los nombres de espacios que buscamos. Una vez obtenido se modificarán algunos datos faltantes o que no están correctos del todo.
-
 
 ## Consultas IA
 
