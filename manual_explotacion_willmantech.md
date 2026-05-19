@@ -18,3 +18,14 @@ Para este apartado se deberá adjuntar una factura electronica simplificada que 
 
 Para ello se debe entrar nuevamente en Odoo, pero a diferencia de en el apartado anterior entraremos a las facturas existentes que han sido creadas anteriormente. Se elegirá una de estas y se exportará como xml.
 Esto nos dará el archivo xml con el estandar UBL y los nombres de espacios que buscamos. Una vez obtenido se modificarán algunos datos faltantes o que no están correctos del todo.
+
+
+## Consultas IA
+
+#1 
+### Agente:
+Claude Haiku 4.5
+### Propmt:
+Añade los comentarios faltantes a este archivo arriba de los if/else desglosando la funcionalidad de cada uno.
+### Respuesta textual:
+Ha resuelto el prompt escribiendo comentarios en el xml explicando algunos if/else
