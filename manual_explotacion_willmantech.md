@@ -77,13 +77,13 @@ Para este apartado se deberá adjuntar una factura electronica simplificada que 
 Para ello se debe entrar nuevamente en Odoo, pero a diferencia de en el apartado anterior entraremos a las facturas existentes que han sido creadas anteriormente. Se elegirá una de estas y se exportará como xml.
 Esto proporcionará el archivo xml con el estandar UBL y los nombres de espacios que buscamos. Una vez obtenido se modificarán algunos datos faltantes o que no están correctos del todo.
 
-## Citas
+## * Citas
 
 W. Willman Acosta, "Refactorización", Willman Acosta, . [Online]. Available: https://docs.google.com/document/d/1G209kpkvMFlEUbU4CH87hF10F0nqILof_LzvSATLxz0/edit?tab=t.0#heading=h.nvj08m9tbkbp. [Accessed: 05-21-2026].
 
 W. Willman Acosta, "La Explotación Tecnológica en Sistemas de Gestión Empresarial (ERP/CRM)", Willman Acosta, . [Online]. Available: https://docs.google.com/document/d/1DHxZ9GXbE7yWfzH-1XwHj6JrkAj-MD-q28ghienvtxY/edit?tab=t.0#heading=h.s5qlwwef4wtv. [Accessed: 05-21-2026].
 
-## Consultas IA
+## * Consultas IA
  
 | Consulta 1 |  |
 | :---- | :---- |
