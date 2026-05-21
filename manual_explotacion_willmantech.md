@@ -83,11 +83,9 @@ W. Willman Acosta, "Refactorización", Willman Acosta, . [Online]. Available: ht
 W. Willman Acosta, "La Explotación Tecnológica en Sistemas de Gestión Empresarial (ERP/CRM)", Willman Acosta, . [Online]. Available: https://docs.google.com/document/d/1DHxZ9GXbE7yWfzH-1XwHj6JrkAj-MD-q28ghienvtxY/edit?tab=t.0#heading=h.s5qlwwef4wtv. [Accessed: 05-21-2026].
 
 ## Consultas IA
-
-#1 
-### Agente:
-Claude Haiku 4.5
-### Propmt:
-Añade los comentarios faltantes a este archivo arriba de los if/else desglosando la funcionalidad de cada uno.
-### Respuesta textual:
-Ha resuelto el prompt escribiendo comentarios en el xml explicando algunos if/else
+ 
+| Consulta 1 |  |
+| :---- | :---- |
+| **Agente:** | Claude Haiku 4.5 |
+| **Propmt:** | Añade los comentarios faltantes a este archivo arriba de los if/else desglosando la funcionalidad de cada uno. |
+| **Respuesta textual:** | Ha resuelto el prompt escribiendo comentarios en el xml explicando algunos if/else |
