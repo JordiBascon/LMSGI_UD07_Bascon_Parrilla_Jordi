@@ -1,5 +1,60 @@
 # AEE: Explotación Tecnológica en ERP/CRM
 
+## 1. Introducción y Arquitectura
+
+Este manual proporciona las instrucciones de explotación, administración y mantenimiento del sistema ERP de **WillmanTech S.L.** El objetivo es garantizar la disponibilidad, integridad y confidencialidad del sistema.
+
+El ERP está compuesto por tres módulos principales interconectados:
+* **Módulo Comercial y Clientes (CRM):** Gestión de cuentas, presupuestos y pedidos.
+* **Módulo de Facturación y Finanzas:** Emisión de facturas, control de cobros, impuestos y contabilidad automatizada.
+* **Módulo de Informes y Analítica:** Renderizado de reportes financieros y operacionales en tiempo real.
+
+El sistema se despliega mediante una arquitectura de microservicios contenedorizados utilizando Docker Compose. Esta estructura aísla los componentes, facilitando la escalabilidad y el mantenimiento de todo el sistema.
+
+## 2. Guía de Instalación y Reinstalación
+
+Este apartado describe el procedimiento para levantar el entorno del ERP desde cero en un servidor limpio (Bare Metal o VPS) con arquitectura Linux de 64 bits.
+
+Antes de comenzar debemos comprobar que contamos con un motor de contenedores (Docker Compose en este caso), con un sistema de gestión de base de datos (Docker incluye PostgreSql ya que es su imagen oficial) y por última memoria y almacenamiento suficiente.
+
+El despligue requiere un archivo .env en la raíz del proyecto con el que gestionar las credenciales y parámetros para conectarse de forma segura. 
+
+Por último solo queda el levantamiento del entorno y la verificación en el mismo.
+
+## 3. Seguridad y Control de Acceso
+La seguridad del ERP de WillmanTech S.L. se basa en el principio de mínimo privilegio y en el control de acceso basado en roles.
+
+| Rol de Usuario | Módulo Comercial  | Módulo Facturación | Configuración del Sistema |
+| :--- | :---: | :---: | :---: |
+| **Administrador** | Acceso Total | Acceso Total  | Acceso Total  |
+| **Contable / Gestor** | Solo Lectura | Acceso Total  | Sin Acceso  |
+| **Comercial** | Acceso Total  | Solo Creación de Presupuestos | Sin Acceso  |
+
+Para eliminar riesgos de accesos no autorizados o ataques de fuerza bruta, la autenticación fuerza de forma nativa los siguientes requisitos de directiva de grupo:
+* **Longitud Mínima:** Las contraseñas deben tener un mínimo de 12 caracteres.
+* **Complejidad Requerida:** Inclusión obligatoria de al menos una letra mayúscula, una letra minúscula, un dígito numérico y un carácter especial.
+* **Rotación Forzada:** Caducidad automática de credenciales cada 90 días naturales, además de esto el sistema impedirá la reutilización de las últimas 3 contraseñas.
+* **Política de Bloqueo (Lockout):** Tras 5 intentos fallidos consecutivos en un tiempo de 15 minutos, la cuenta de usuario se suspenderá automáticamente. Solo un Administrador podrá desbloquear la cuenta o en el caso de no ser posible se liberará automáticamente pasadas 24 horas.
+
+## 4. Procedimiento de Backup y Restauración
+El Plan de Continuidad de Negocio de WillmanTech S.L. exige mantener copias de seguridad constantes tanto de la base de datos relacional como del almacén de archivos.
+
+El respaldo se realiza en caliente utilizando la herramienta nativa pg_dump, garantizando la integridad referencial sin necesidad de interrumpir el servicio de la aplicación.
+
+## 5. Flujo Operativo de Facturación e Informes
+
+El proceso para hacer una factura legal es una línea recta muy fácil de seguir, pensada precisamente para que nadie tenga dificultad en el proceso.
+
+**Navegación:** El usuario con rol Administrador accede a Facturación > Nueva Factura.
+
+**Selección de Entidad:** Al escribir las primeras letras del cliente en el buscador dinámico, el sistema realiza una llamada no sincronizada mediante AJAX (*) para autocompletar la ficha fiscal del cliente.
+
+**Carga de Conceptos:** Se añaden las líneas de detalle introduciendo el artículo/servicio, la cantidad y el precio unitario. Los impuestos aplicables se calculan y desglosan en tiempo real en el pie del formulario.
+
+**Confirmación y Persistencia:** El usuario presiona el botón "Confirmar y Emitir Factura". El sistema valida que el documento contenga campos obligatorios coherentes, le asigna un número correlativo único e inalterable y guarda el registro con estado EMITIDA en la base de datos.
+
+(*) AJAX (Asynchronous JavaScript And XML) es una técnica de desarrollo web que permite a las páginas actualizarse y comunicarse con un servidor en segundo plano, teniendo como ventaja la capacidad de modificar el contenido de una web sin necesidad de recargar la página completa.
+
 ## Generación del Informe Dinámico (QWeb XML)
 
 En este apartado se debe diseñar y programar una estructura XML para la plantilla de un informa de facturas personalizadas para la empresa WillmanTech.S.L. utilizando QWeb.
@@ -19,59 +74,13 @@ Para este apartado se deberá adjuntar una factura electronica simplificada que 
 ![alt text](src/image2.png)
 
 Para ello se debe entrar nuevamente en Odoo, pero a diferencia de en el apartado anterior entraremos a las facturas existentes que han sido creadas anteriormente. Se elegirá una de estas y se exportará como xml.
-Esto nos dará el archivo xml con el estandar UBL y los nombres de espacios que buscamos. Una vez obtenido se modificarán algunos datos faltantes o que no están correctos del todo.
+Esto proporcionará el archivo xml con el estandar UBL y los nombres de espacios que buscamos. Una vez obtenido se modificarán algunos datos faltantes o que no están correctos del todo.
 
-## 1. Introducción y Arquitectura
+## Citas
 
-Este manual proporciona las instrucciones de explotación, administración y mantenimiento del sistema ERP de **WillmanTech S.L.** El objetivo es garantizar la disponibilidad, integridad y confidencialidad del sistema bajo los estándares de calidad de la norma ISO/IEC/IEEE 26514:2022.
+W. Willman Acosta, "Refactorización", Willman Acosta, . [Online]. Available: https://docs.google.com/document/d/1G209kpkvMFlEUbU4CH87hF10F0nqILof_LzvSATLxz0/edit?tab=t.0#heading=h.nvj08m9tbkbp. [Accessed: 05-21-2026].
 
-El ERP está compuesto por tres módulos principales interconectados:
-* **Módulo Comercial y Clientes (CRM):** Gestión de cuentas, leads, presupuestos y pedidos.
-* **Módulo de Facturación y Finanzas:** Emisión de facturas, control de cobros, impuestos y contabilidad automatizada.
-* **Módulo de Informes y Analítica:** Renderizado de reportes financieros y operacionales en tiempo real.
-
-El sistema se despliega mediante una arquitectura de microservicios contenedorizados utilizando Docker Compose. Esta estructura aísla los componentes, facilitando la escalabilidad y el mantenimiento.
-
-## 2. Guía de Instalación y Reinstalación
-
-Este apartado describe el procedimiento para levantar el entorno del ERP desde cero en un servidor limpio (Bare Metal o VPS) con arquitectura Linux de 64 bits.
-
-Antes de la instalación, asegúrese de que el servidor cuenta con los siguientes paquetes actualizados:
-* **Docker Engine** >= v24.0.0
-* **Docker Compose v2** >= v2.20.0
-* **SGBD Relacional:** PostgreSQL 15 (Gestionado internamente por el contenedor).
-
-## 3. Seguridad y Control de Acceso
-La seguridad del ERP de WillmanTech S.L. se basa en el principio de mínimo privilegio y en el control de acceso basado en roles (RBAC).
-
-| Rol de Usuario | Módulo Comercial (CRM) | Módulo Facturación | Configuración del Sistema |
-| :--- | :---: | :---: | :---: |
-| **Administrador (SysAdmin)** | Acceso Total (RWD) | Acceso Total (RWD) | Acceso Total (RWD) |
-| **Contable / Gestor** | Solo Lectura (R) | Acceso Total (RWD) | Sin Acceso (N) |
-| **Comercial** | Acceso Total (RWD) | Solo Creación de Presupuestos (W) | Sin Acceso (N) |
-
-Para mitigar riesgos de accesos no autorizados o ataques de fuerza bruta, el submódulo de autenticación fuerza de forma nativa los siguientes requisitos de directiva de grupo:
-* **Longitud Mínima:** Las contraseñas deben tener un mínimo de 12 caracteres.
-* **Complejidad Requerida:** Inclusión obligatoria de al menos una letra mayúscula, una letra minúscula, un dígito numérico y un carácter especial (ej. `@`, `#`, `$`, `%`, `*`).
-* **Rotación Forzada:** Caducidad automática de credenciales cada 90 días naturales. El sistema impedirá la reutilización de las últimas 3 contraseñas.
-* **Política de Bloqueo (Lockout):** Tras 5 intentos fallidos consecutivos en un intervalo de 15 minutos, la cuenta de usuario se suspenderá automáticamente. Solo un Administrador podrá desbloquear la cuenta o, en su defecto, se liberará automáticamente pasadas 24 horas.
-
-## 4. Procedimiento de Backup y Restauración
-El Plan de Continuidad de Negocio de WillmanTech S.L. exige mantener copias de seguridad consistentes tanto del estado transaccional (Base de Datos Relacional) como del estado físico (Almacén de Archivos Adjuntos).
-
-El respaldo se realiza en caliente utilizando la herramienta nativa pg_dump orientada al contenedor de persistencia, garantizando la integridad referencial sin necesidad de interrumpir el servicio de la aplicación.
-
-## 5. Flujo Operativo de Facturación e Informes
-
-El ciclo operativo para la emisión de un comprobante legal sigue una secuencia lineal e intuitiva diseñada para evitar errores humanos:
-
-Navegación: El usuario con rol Contable o Administrador accede al menú lateral izquierdo y hace clic en Facturación > Nueva Factura.
-
-Selección de Entidad: Al escribir las primeras letras del cliente en el buscador dinámico, el sistema realiza una llamada asíncrona mediante AJAX para autocompletar la ficha fiscal (Razón Social, NIF/CIF, Dirección de Facturación y Términos de Pago).
-
-Carga de Conceptos: Se añaden las líneas de detalle introduciendo el artículo/servicio, la cantidad y el precio unitario. Los impuestos aplicables (IVA, IRPF, Recargo de Equivalencia) se calculan y desglosan en tiempo real en el pie del formulario.
-
-Confirmación y Persistencia: El usuario presiona el botón "Confirmar y Emitir Factura". El sistema valida que el documento contenga campos obligatorios coherentes, le asigna un número correlativo único e inalterable según la serie contable, y guarda el registro con estado EMITIDA en PostgreSQL.
+W. Willman Acosta, "La Explotación Tecnológica en Sistemas de Gestión Empresarial (ERP/CRM)", Willman Acosta, . [Online]. Available: https://docs.google.com/document/d/1DHxZ9GXbE7yWfzH-1XwHj6JrkAj-MD-q28ghienvtxY/edit?tab=t.0#heading=h.s5qlwwef4wtv. [Accessed: 05-21-2026].
 
 ## Consultas IA
 
